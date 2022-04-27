@@ -37,11 +37,12 @@ class AbstractAsyncRunner(ABC):
 
     Use it as a context manager to ensure proper cleanup.
 
-    Usage
-    =====
+    **Usage**
 
     Usually you want to connect normal Qt signals to slots written as async functions to signals,
     something like this:
+
+    .. code-block:: python
 
         def _build_ui(self):
             button.clicked.connect(self._on_button_clicked_sync_slot)
@@ -54,6 +55,8 @@ class AbstractAsyncRunner(ABC):
 
     However, the ``to_sync`` method can be used to reduce the boilerplate:
 
+    .. code-block:: python
+
         def _build_ui(self):
             button.clicked.connect(self.runner.to_sync(self._on_button_clicked))
 
@@ -61,11 +64,12 @@ class AbstractAsyncRunner(ABC):
             result = await self.runner.run(compute_spectrum, self.spectrum)
 
 
-    Running many functions in parallel
-    ----------------------------------
+    **Running many functions in parallel**
 
     Often we want to submit several functions to run at the same time (respecting the underlying
     number of threads in the pool of course), in which case one can use ``run_parallel``:
+
+    .. code-block:: python
 
         def compute(...):
             ...

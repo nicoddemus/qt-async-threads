@@ -16,6 +16,8 @@ jobs:
         include:
           - python: "3.10"
             tox_env: "py310"
+          - python: "3.10"
+            tox_env: "test-docs"
 
     steps:
     - uses: actions/checkout@v1
