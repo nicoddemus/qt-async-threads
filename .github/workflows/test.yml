@@ -11,12 +11,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.10"]
+        name: ["tests", "test-docs"]
         os: [ubuntu-latest, windows-latest]
         include:
-          - python: "3.10"
+          - name: "tests"
+            python: "3.10"
             tox_env: "py310"
-          - python: "3.10"
+          - name: "test-docs"
+            python: "3.10"
             tox_env: "test-docs"
 
     steps:
