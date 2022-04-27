@@ -7,5 +7,5 @@ from qt_async_threads import QtAsyncRunner
 
 @pytest.fixture
 def runner(qtbot: QtBot) -> Iterator[QtAsyncRunner]:
-    with QtAsyncRunner() as runner:
+    with QtAsyncRunner(max_threads=4) as runner:
         yield runner
