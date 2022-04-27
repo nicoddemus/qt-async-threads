@@ -7,7 +7,7 @@
 qt-async-threads
 ================
 
-``qt-async-threads`` allows Qt applications to run computational intensive or IO operations in threads using
+``qt-async-threads`` allows Qt applications to run computational or IO intensive operations in threads using
 convenient ``async/await`` syntax.
 
 
