@@ -1,6 +1,7 @@
 import random
 import time
 from functools import partial
+from threading import Barrier
 
 import pytest
 from PyQt5.QtWidgets import QApplication
@@ -175,14 +176,10 @@ def test_ensure_parallel(
     """
 
     executed_calls: set[str] = set()
+    barrier = Barrier(parties=2, timeout=5.0)
 
     def slow_function(call_id: str) -> str:
-        # This assertion ensures we are executing the calls in parallel:
-        # If the functions were to be processed sequentially, this assert
-        # would trigger, because the 2nd call would find the executed_calls set already
-        # with the results of the first call.
-        assert not executed_calls
-        time.sleep(0.1)
+        barrier.wait()
         executed_calls.add(call_id)
         return call_id
 
