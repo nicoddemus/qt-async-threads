@@ -10,12 +10,14 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QSpinBox
 from PyQt5.QtWidgets import QWidget
+from qt_async_threads import QtAsyncRunner
 from requests.exceptions import ConnectionError
 
 
 class Window(QWidget):
-    def __init__(self, directory: Path) -> None:
+    def __init__(self, directory: Path, runner: QtAsyncRunner) -> None:
         super().__init__()
+        self.runner = runner
 
         self.setWindowTitle("Cat Downloader")
         self.directory = directory
@@ -37,10 +39,10 @@ class Window(QWidget):
         layout.addRow(self.stop_button)
 
         # Connect signals.
-        self.download_button.clicked.connect(self._on_download_button_clicked)
+        self.download_button.clicked.connect(self.runner.to_sync(self._on_download_button_clicked))
         self.stop_button.clicked.connect(self._on_cancel_button_clicked)
 
-    def _on_download_button_clicked(self, checked: bool = False) -> None:
+    async def _on_download_button_clicked(self, checked: bool = False) -> None:
         self.progress_label.setText("Searching...")
         self.download_button.setEnabled(False)
         self.stop_button.setEnabled(True)
@@ -51,12 +53,14 @@ class Window(QWidget):
             for i in range(self.count_spin.value()):
                 try:
                     # Search.
-                    search_response = requests.get("https://api.thecatapi.com/v1/images/search")
+                    search_response = await self.runner.run(
+                        requests.get, "https://api.thecatapi.com/v1/images/search"
+                    )
                     search_response.raise_for_status()
 
                     # Download.
                     url = search_response.json()[0]["url"]
-                    download_response = requests.get(url)
+                    download_response = await self.runner.run(requests.get, url)
                 except ConnectionError as e:
                     QMessageBox.critical(self, "Error", f"Error connecting to TheCatApi:\n{e}")
                     return
@@ -84,7 +88,8 @@ class Window(QWidget):
 
 if __name__ == "__main__":
     install_except_hook()
-    app = QApplication([])
-    win = Window(Path(__file__).parent / "cats")
-    win.show()
-    app.exec()
+    with QtAsyncRunner() as runner:
+        app = QApplication([])
+        win = Window(Path(__file__).parent / "cats", runner)
+        win.show()
+        app.exec()
