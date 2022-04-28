@@ -101,10 +101,7 @@ def test_run_parallel(qtbot: QtBot, runner: QtAsyncRunner) -> None:
 
     async def foo(count: int) -> None:
         assert_is_main_thread()
-        funcs = [
-            partial(double, x, sleep_s=random.randrange(0, 10) / 1000.0)
-            for x in range(count)
-        ]
+        funcs = [partial(double, x, sleep_s=random.randrange(0, 10) / 1000.0) for x in range(count)]
         async for result in runner.run_parallel(funcs):
             results.append(result)
 
@@ -168,9 +165,7 @@ def test_run_parallel_stop_midway(qtbot: QtBot, runner: QtAsyncRunner) -> None:
     assert len(results) == 50
 
 
-def test_ensure_parallel(
-    qtbot: QtBot, qapp: QApplication, runner: QtAsyncRunner
-) -> None:
+def test_ensure_parallel(qtbot: QtBot, qapp: QApplication, runner: QtAsyncRunner) -> None:
     """
     Ensure the ``run_parallel`` executes functions in parallel.
     """

@@ -24,14 +24,10 @@ class Window(QWidget):
         layout.addWidget(self.results_label)
         layout.addWidget(self.search_button)
 
-        self.search_button.clicked.connect(
-            self.runner.to_sync(self._on_search_button_clicked)
-        )
+        self.search_button.clicked.connect(self.runner.to_sync(self._on_search_button_clicked))
 
     async def _on_search_button_clicked(self, *args: object) -> None:
-        response = await self.runner.run(
-            requests.get, "https://api.thecatapi.com/v1/images/search"
-        )
+        response = await self.runner.run(requests.get, "https://api.thecatapi.com/v1/images/search")
         url = response.json()[0]["url"]
         self.results_label.setText(f"Found a cat! [click to open]({url})")
 

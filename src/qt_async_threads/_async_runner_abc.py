@@ -130,9 +130,7 @@ class AbstractAsyncRunner(ABC):
         or for testing.
         """
 
-    def to_sync(
-        self, async_func: Callable[..., Coroutine[Any, Any, None]]
-    ) -> Callable[..., None]:
+    def to_sync(self, async_func: Callable[..., Coroutine[Any, Any, None]]) -> Callable[..., None]:
         """
         Returns a new sync function that will start its coroutine using ``start_coroutine`` when
         called, returning immediately.
