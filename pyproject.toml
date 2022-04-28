@@ -11,3 +11,4 @@ line-length = 100
 [tool.pytest.ini_options]
 addopts = "-ra"
 pythonpath = "docs"
+testpaths = ["docs", "tests"]
