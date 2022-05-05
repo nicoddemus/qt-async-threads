@@ -47,8 +47,10 @@ class AbstractAsyncRunner(ABC):
         def _build_ui(self):
             button.clicked.connect(self._on_button_clicked_sync_slot)
 
+
         def _on_button_clicked_sync_slot(self):
             self.runner.start_coroutine(self._on_button_clicked_async())
+
 
         async def _on_button_clicked_async(self):
             result = await self.runner.run(compute_spectrum, self.spectrum)
@@ -59,6 +61,7 @@ class AbstractAsyncRunner(ABC):
 
         def _build_ui(self):
             button.clicked.connect(self.runner.to_sync(self._on_button_clicked))
+
 
         async def _on_button_clicked(self):
             result = await self.runner.run(compute_spectrum, self.spectrum)
@@ -71,13 +74,15 @@ class AbstractAsyncRunner(ABC):
 
     .. code-block:: python
 
-        def compute(...):
+        def compute(*args):
             ...
+
 
         async def _compute(self) -> None:
             funcs = [partial(compute, ...) for _ in range(attempts)]
             async for result in self.runner.run_parallel(funcs):
                 # do something with ``result``
+                ...
 
     Using ``async for``, we submit the functions to a thread pool, and we asynchronously
     process the results as they are completed.
