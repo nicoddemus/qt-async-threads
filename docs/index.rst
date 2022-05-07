@@ -23,3 +23,5 @@ convenient ``async/await`` syntax.
    tutorial
    reference
    testing
+   changelog
+   license
