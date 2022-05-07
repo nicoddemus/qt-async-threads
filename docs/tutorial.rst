@@ -149,3 +149,21 @@ And that's it! Now the application is just as responsive as the version using ``
 
   This is the point of the ``qt-async-threads`` package: easily taking an existing application and employ threads to
   execute blocking calls, with minimal changes.
+
+
+Example 4: Running in parallel
+------------------------------
+
+We can improve things further: downloads are something which is efficient to be done in parallel to maximize
+bandwidth usage, and :meth:`QtAsyncRunner.run_parallel <qt_async_threads.QtAsyncRunner.run_parallel>` makes
+it easy to adjust our code to run many blocking functions in parallel.
+
+.. literalinclude:: examples/explanation_async_parallel.py
+   :pyobject: Window.on_download_button_clicked
+
+We refactor the part of the code responsible for downloading the file into the ``download_one`` function,
+and then call ``QtAsyncRunner.run_parallel()`` passing a list of functions to execute in parallel.
+Using the ``async for`` syntax, we loop over the results as they get ready, and then proceed as usual.
+
+One small change is that we moved the handler for ``ConnectionError`` to cover the ``async for`` loop, as now
+the ``run_parallel()`` call can raise that exception.
