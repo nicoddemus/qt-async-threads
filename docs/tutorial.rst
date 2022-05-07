@@ -92,10 +92,10 @@ All in all, this is not *terrible*, however it is not trivial either.
 
 Also one can see that is easy for an application to slowly grow portions of the code that are blocking but
 still quick enough that are not a problem, but then depending on the input data or some other external factor
-(like a slow connection) that *quick enough* is no longer *enough* so we decide to refactor it.
+(like a slow connection) that *quick enough* is no longer *enough* so we then need to refactor it.
 
 As time evolves, an application will often grow many small pain points like this, requiring us to carefully examine
-the code later and refactor to threads later.
+the code and refactor to threads later, as writing using threads in the first place is costly/non-trivial.
 
 Example 3: Enter ``QtAsyncRunner``
 ----------------------------------
@@ -104,7 +104,7 @@ Example 3: Enter ``QtAsyncRunner``
 to easily change our existing code to use threads, without the need for a major refactoring.
 
 First we need an instance of a ``QtAsyncRunner`` class. It is strongly suggested create this *once* in the application
-and pass it to the objects that need it, however it is possible to let each widget/panel create their own instance.
+startup and pass it to the objects that need it, however it is possible to let each widget/panel create their own instance.
 
 Here we will receive the runner as part of the constructor:
 
@@ -119,7 +119,7 @@ we just need to add the ``async`` keyword before ``def``:
    :start-at: def on_download_button_clicked
    :end-before: self.download_button.setEnabled
 
-The objective here is for the ``request.get`` calls to run in a separate thread, for that we use then
+The objective here is for the ``request.get`` calls to run in a separate thread, so we use
 the :meth:`QtAsyncRunner.run <qt_async_threads.QtAsyncRunner.run>` method to run the function and its arguments
 into a thread, so we change this:
 
@@ -133,7 +133,7 @@ Into this:
    :start-at: # Search
    :end-before: except ConnectionError
 
-Note that ``run`` is ``async``, so we need to put ``await`` in front of them.
+Note that ``run`` is ``async``, so we need to put ``await`` in front of it.
 
 Finally, we just need to change the signal connection: Qt doesn't know how to execute ``async`` methods, so
 we need to ask the ``runner`` to wrap it for us:
@@ -147,8 +147,8 @@ And that's it! Now the application is just as responsive as the version using ``
 
 .. important::
 
-  This is the point of the ``qt-async-threads`` package: easily taking an existing application and employ threads to
-  execute blocking calls, with minimal changes.
+  This is the point of the ``qt-async-threads`` package: easily taking an existing application and,
+  with minimal changes, employ threads to execute blocking calls.
 
 
 Example 4: Running in parallel
@@ -162,7 +162,7 @@ it easy to adjust our code to run many blocking functions in parallel.
    :pyobject: Window.on_download_button_clicked
 
 We refactor the part of the code responsible for downloading the file into the ``download_one`` function,
-and then call ``QtAsyncRunner.run_parallel()`` passing a list of functions to execute in parallel.
+and then call ``QtAsyncRunner.run_parallel()`` passing a list of functions that will be executed in parallel.
 Using the ``async for`` syntax, we loop over the results as they get ready, and then proceed as usual.
 
 One small change is that we moved the handler for ``ConnectionError`` to cover the ``async for`` loop, as now
