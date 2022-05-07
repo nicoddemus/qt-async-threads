@@ -1,8 +1,8 @@
 
-0.2
----
+0.2.1
+-----
 
-- Fixed small linting issues, testing automatic deploy.
+- Fixed small linting issues, automatic deploy.
 
 0.1
 ---
