@@ -1,17 +1,27 @@
-========================
+.. _`tutorial`:
+
+========
+Tutorial
+========
+
+This tutorial will show how to change the function in an existing application, that
+performs a blocking operation, so it no longer freezes the UI, providing a better
+user experience.
+
 Statement of the problem
-========================
+------------------------
 
-It is common in for UI applications to spawn computational intensive operations based on user interaction,
-like downloading some files or doing some CPU intensive calculations.
+It is common for applications to spawn computational intensive operations based on user interaction,
+like downloading some files or performing CPU intensive computations.
 
-Just calling those blocking functions directly will usually lead to poor user experience, as the UI will become
-unresponsive while the blocking operation is taking place.
+Calling those functions directly will usually lead to poor user experience, as the UI will become
+unresponsive while the operation is taking place.
 
 The usual solution to avoid making the UI unresponsive is to run the expensive operation in a separate thread,
-leaving the main thread free to process other user events. However, this often
-leads to more complex code, breaking the normal flow of the code, requiring extra bookkeeping, and making
-the interaction harder to test.
+leaving the main thread free to process other user events (the event loop).
+
+However, this requires to break the normal flow of the code into separate functions, doing extra bookkeeping to
+communicate results/errors, and making the original interaction harder to test than before.
 
 Example 1: First implementation
 -------------------------------
@@ -56,16 +66,16 @@ In order to use this thread object, we need to refactor the ``Window`` code to s
 to its events:
 
 .. literalinclude:: examples/explanation_thread.py
-   :pyobject: Window._on_download_button_clicked
+   :pyobject: Window.on_download_button_clicked
 
 .. literalinclude:: examples/explanation_thread.py
-   :pyobject: Window._on_downloaded
+   :pyobject: Window.on_downloaded
 
 .. literalinclude:: examples/explanation_thread.py
-   :pyobject: Window._on_download_finished
+   :pyobject: Window.on_download_finished
 
 .. literalinclude:: examples/explanation_thread.py
-   :pyobject: Window._on_cancel_button_clicked
+   :pyobject: Window.on_cancel_button_clicked
 
 
 This now gives us a responsive interface: clicking on the Stop button gives immediate feedback, as well as minor
@@ -106,7 +116,7 @@ Next, we will change our original ``_on_download_button_clicked`` function so it
 we just need to add the ``async`` keyword before ``def``:
 
 .. literalinclude:: examples/explanation_async.py
-   :start-at: def _on_download_button_clicked
+   :start-at: def on_download_button_clicked
    :end-before: self.download_button.setEnabled
 
 The objective here is for the ``request.get`` calls to run in a separate thread, for that we use then

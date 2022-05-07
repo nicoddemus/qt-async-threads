@@ -39,10 +39,10 @@ class Window(QWidget):
         layout.addRow(self.stop_button)
 
         # Connect signals.
-        self.download_button.clicked.connect(self.runner.to_sync(self._on_download_button_clicked))
-        self.stop_button.clicked.connect(self._on_cancel_button_clicked)
+        self.download_button.clicked.connect(self.runner.to_sync(self.on_download_button_clicked))
+        self.stop_button.clicked.connect(self.on_cancel_button_clicked)
 
-    async def _on_download_button_clicked(self, checked: bool = False) -> None:
+    async def on_download_button_clicked(self, checked: bool = False) -> None:
         self.progress_label.setText("Searching...")
         self.download_button.setEnabled(False)
         self.stop_button.setEnabled(True)
@@ -82,7 +82,7 @@ class Window(QWidget):
             self.download_button.setEnabled(True)
             self.stop_button.setEnabled(False)
 
-    def _on_cancel_button_clicked(self) -> None:
+    def on_cancel_button_clicked(self) -> None:
         self._cancelled = True
 
 

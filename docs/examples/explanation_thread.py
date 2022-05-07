@@ -40,20 +40,20 @@ class Window(QWidget):
         layout.addRow(self.stop_button)
 
         # Connect signals.
-        self.download_button.clicked.connect(self._on_download_button_clicked)
-        self.stop_button.clicked.connect(self._on_cancel_button_clicked)
+        self.download_button.clicked.connect(self.on_download_button_clicked)
+        self.stop_button.clicked.connect(self.on_cancel_button_clicked)
 
-    def _on_download_button_clicked(self, checked: bool = False) -> None:
+    def on_download_button_clicked(self, checked: bool = False) -> None:
         self.progress_label.setText("Searching...")
         self.download_button.setEnabled(False)
         self.stop_button.setEnabled(True)
 
         self._thread = DownloadThread(self.count_spin.value(), self)
-        self._thread.downloaded_signal.connect(self._on_downloaded)
-        self._thread.finished.connect(self._on_download_finished)
+        self._thread.downloaded_signal.connect(self.on_downloaded)
+        self._thread.finished.connect(self.on_download_finished)
         self._thread.start()
 
-    def _on_downloaded(self, index: int, name: str, data: bytes) -> None:
+    def on_downloaded(self, index: int, name: str, data: bytes) -> None:
         # Save the contents of the image to a file.
         path = self.directory / f"{index:02d}_cat{Path(name).suffix}"
         path.write_bytes(data)
@@ -61,7 +61,7 @@ class Window(QWidget):
         # Show progress.
         self.progress_label.setText(f"Downloaded {name}")
 
-    def _on_download_finished(self) -> None:
+    def on_download_finished(self) -> None:
         assert self._thread is not None
         if self._thread.cancelled:
             QMessageBox.information(self, "Cancelled", "Download cancelled")
@@ -73,7 +73,7 @@ class Window(QWidget):
         self.download_button.setEnabled(True)
         self.stop_button.setEnabled(False)
 
-    def _on_cancel_button_clicked(self) -> None:
+    def on_cancel_button_clicked(self) -> None:
         assert self._thread is not None
         self._thread.cancelled = True
 
