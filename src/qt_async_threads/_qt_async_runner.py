@@ -73,7 +73,7 @@ class QtAsyncRunner(AbstractAsyncRunner):
     def close(self) -> None:
         self._pool.shutdown(wait=True, cancel_futures=True)
 
-    async def run(  # type:ignore[override]
+    async def run(
         self, func: Callable[Params, T], *args: Params.args, **kwargs: Params.kwargs
     ) -> T:
         """
