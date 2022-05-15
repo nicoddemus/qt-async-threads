@@ -23,7 +23,7 @@ class SequentialRunner(AbstractAsyncRunner):
     def close(self) -> None:
         pass
 
-    async def run(  # type:ignore[override]
+    async def run(
         self, func: Callable[Params, T], *args: Params.args, **kwargs: Params.kwargs
     ) -> T:
         """
