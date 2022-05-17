@@ -1,3 +1,8 @@
+0.3.1
+-----
+
+- Relax requirements for PyQt to ``>=5.12``.
+
 0.3.0
 -----
 
