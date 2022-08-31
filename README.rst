@@ -31,8 +31,8 @@ computational intensive or IO operations in threads, selectively changing the co
 to provide a more responsive UI.
 
 The objective of this library is to provide a simple and convenient way to improve
-UI responsiveness in existing Qt applications, by using ``async/await``, without
-having to do large scale refactorings to do so.
+UI responsiveness in existing Qt applications by using ``async/await``, while
+at the same time not requiring large scale refactorings.
 
 Example
 =======
