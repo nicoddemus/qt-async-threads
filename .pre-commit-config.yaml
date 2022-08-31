@@ -23,7 +23,7 @@ repos:
     -   id: check-yaml
     -   id: check-merge-conflict
 -   repo: https://github.com/myint/autoflake
-    rev: v1.4
+    rev: v1.5.1
     hooks:
     -   id: autoflake
         name: autoflake
