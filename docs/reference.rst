@@ -12,7 +12,6 @@ window/widgets:
 .. code-block:: python
 
     def main(argv: list[str]) -> None:
-
         app = QApplication(argv)
         with QtAsyncRunner() as runner:
             main_window = MainWindow(runner)
