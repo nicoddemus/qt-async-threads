@@ -2,7 +2,6 @@ from qt_async_threads.pytest_plugin import AsyncTester
 
 
 def test_start_and_wait(async_tester: AsyncTester) -> None:
-
     steps: list[str] = []
 
     async def main() -> None:

@@ -79,7 +79,6 @@ class Window(QWidget):
 
 
 class DownloadThread(QThread):
-
     # Signal emitted when a cat image has been downloaded.
     # Arguments: index, basename, image data
     downloaded_signal = pyqtSignal(int, str, bytes)
