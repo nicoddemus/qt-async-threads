@@ -20,9 +20,9 @@ from typing import Iterator
 
 import attr
 from boltons.iterutils import chunked_iter
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QApplication
+from qtpy.QtCore import QObject
+from qtpy.QtCore import Signal
+from qtpy.QtWidgets import QApplication
 
 from ._async_runner_abc import AbstractAsyncRunner
 from ._async_runner_abc import Params
@@ -272,4 +272,4 @@ class _FutureDoneSignaller(QObject):
 
     # This emits(Future, Coroutine). We need to use ``object`` as the
     # second parameter because Qt doesn't allow us to use an ABC class there it seems.
-    future_done_signal = pyqtSignal(Future, object)
+    future_done_signal = Signal(Future, object)

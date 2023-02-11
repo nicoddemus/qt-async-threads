@@ -38,5 +38,4 @@ repos:
         args: []
         additional_dependencies:
           - attrs
-          - pyqt5-stubs
           - tomli

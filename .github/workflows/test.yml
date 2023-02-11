@@ -1,6 +1,10 @@
 name: test
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
 
@@ -11,11 +15,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.10"]
+        python: ["3.10", "3.11"]
+        qt-lib: ["pyqt5", "pyqt6", "pyside2", "pyside6"]
         os: [ubuntu-latest, windows-latest]
         include:
           - python: "3.10"
-            tox_env: "py310"
+            tox-env: "py310"
+          - python: "3.11"
+            tox-env: "py311"
+        exclude:
+          - python: "3.11"
+            qt-lib: "pyside2"
 
     steps:
     - uses: actions/checkout@v1
@@ -23,10 +33,16 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python }}
+    - name: Install mesa
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y libgles2-mesa-dev
+      shell: bash
     - name: Install tox
       run: |
         python -m pip install --upgrade pip
         pip install tox
     - name: Test
       run: |
-        tox -e ${{ matrix.tox_env }} -- --color=yes
+         tox -e ${{ matrix.tox-env }}-${{ matrix.qt-lib }} -- -ra --color=yes

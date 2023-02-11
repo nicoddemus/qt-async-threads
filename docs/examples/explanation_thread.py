@@ -3,16 +3,16 @@ from urllib.parse import urlsplit
 
 import requests
 from examples.exception import install_except_hook
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtCore import QObject
-from PyQt5.QtCore import QThread
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QFormLayout
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtWidgets import QSpinBox
-from PyQt5.QtWidgets import QWidget
+from qtpy.QtCore import pyqtSignal
+from qtpy.QtCore import QObject
+from qtpy.QtCore import QThread
+from qtpy.QtWidgets import QApplication
+from qtpy.QtWidgets import QFormLayout
+from qtpy.QtWidgets import QLabel
+from qtpy.QtWidgets import QMessageBox
+from qtpy.QtWidgets import QPushButton
+from qtpy.QtWidgets import QSpinBox
+from qtpy.QtWidgets import QWidget
 from requests.exceptions import ConnectionError
 
 

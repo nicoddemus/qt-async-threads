@@ -34,6 +34,8 @@ The objective of this library is to provide a simple and convenient way to impro
 UI responsiveness in existing Qt applications by using ``async/await``, while
 at the same time not requiring large scale refactorings.
 
+Supports `PyQt5`_, `PyQt6`_, `PySide2`_, and `PySide6`_ thanks to `qtpy`_.
+
 Example
 =======
 
@@ -125,9 +127,7 @@ We could rewrite the first example using a `ThreadPoolExecutor`_ or `QThreads`_,
 but that would require a significant rewrite of the flow of the code if we don't want to block
 the Qt event loop.
 
-.. _QtAsyncRunner: https://qt-async-threads.readthedocs.io/en/latest/reference.html#qt_async_threads.QtAsyncRunner
-.. _ThreadPoolExecutor: https://docs.python.org/3/library/concurrent.futures.html#threadpoolexecutor
-.. _QThreads: https://doc.qt.io/qt-5/qthread.html
+
 
 Documentation
 =============
@@ -152,16 +152,22 @@ entry point to also be ``async``, which might be hard to accommodate in an exist
 ``qt-async-threads``, on the other hand, focuses only on one feature: allow the user to leverage ``async``/``await``
 syntax to *handle threads more naturally*, without the need for major refactorings in existing applications.
 
-.. _qasync: https://pypi.org/project/qasync
-.. _asyncio: https://docs.python.org/3/library/asyncio.html
-.. _qtrio: https://pypi.org/project/qtrio
-.. _trio: https://pypi.org/project/trio
-.. _httpx: https://www.python-httpx.org
-
 License
 =======
 
 Distributed under the terms of the `MIT`_ license.
 
-
 .. _MIT: https://github.com/pytest-dev/pytest-mock/blob/master/LICENSE
+.. _PyQt5: https://pypi.org/project/PyQt5/
+.. _PyQt6: https://pypi.org/project/PyQt6/
+.. _PySide2: https://pypi.org/project/PySide2/
+.. _PySide6: https://pypi.org/project/PySide6/
+.. _QThreads: https://doc.qt.io/qt-5/qthread.html
+.. _QtAsyncRunner: https://qt-async-threads.readthedocs.io/en/latest/reference.html#qt_async_threads.QtAsyncRunner
+.. _ThreadPoolExecutor: https://docs.python.org/3/library/concurrent.futures.html#threadpoolexecutor
+.. _asyncio: https://docs.python.org/3/library/asyncio.html
+.. _httpx: https://www.python-httpx.org
+.. _qasync: https://pypi.org/project/qasync
+.. _qtpy: https://pypi.org/project/qtpy/
+.. _qtrio: https://pypi.org/project/qtrio
+.. _trio: https://pypi.org/project/trio

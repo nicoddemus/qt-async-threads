@@ -4,9 +4,9 @@ from functools import partial
 from threading import Barrier
 
 import pytest
-from PyQt5.QtWidgets import QApplication
 from pytestqt.qtbot import QtBot
 from qt_async_threads import QtAsyncRunner
+from qtpy.QtWidgets import QApplication
 
 from tests.testing import assert_is_another_thread
 from tests.testing import assert_is_main_thread
