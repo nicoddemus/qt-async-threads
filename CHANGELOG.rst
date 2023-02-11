@@ -1,3 +1,14 @@
+0.4.0
+-----
+
+- Support `PyQt5`_, `PyQt6`_, `PySide2`_, and `PySide6`_ thanks to `qtpy`_.
+
+.. _PyQt5: https://pypi.org/project/PyQt5/
+.. _PyQt6: https://pypi.org/project/PyQt6/
+.. _PySide2: https://pypi.org/project/PySide2/
+.. _PySide6: https://pypi.org/project/PySide6/
+.. _qtpy: https://pypi.org/project/qtpy/
+
 0.3.1
 -----
 

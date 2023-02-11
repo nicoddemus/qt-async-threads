@@ -3,14 +3,14 @@ from urllib.parse import urlsplit
 
 import requests
 from examples.exception import install_except_hook
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import QFormLayout
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtWidgets import QMessageBox
-from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtWidgets import QSpinBox
-from PyQt5.QtWidgets import QWidget
 from qt_async_threads import QtAsyncRunner
+from qtpy.QtWidgets import QApplication
+from qtpy.QtWidgets import QFormLayout
+from qtpy.QtWidgets import QLabel
+from qtpy.QtWidgets import QMessageBox
+from qtpy.QtWidgets import QPushButton
+from qtpy.QtWidgets import QSpinBox
+from qtpy.QtWidgets import QWidget
 from requests import Response
 from requests.exceptions import ConnectionError
 
