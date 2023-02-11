@@ -15,12 +15,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.10"]
+        python: ["3.10", "3.11"]
         qt-lib: ["pyqt5", "pyqt6", "pyside2", "pyside6"]
         os: [ubuntu-latest, windows-latest]
         include:
           - python: "3.10"
             tox-env: "py310"
+          - python: "3.11"
+            tox-env: "py311"
+        exclude:
+          - python: "3.11"
+            qt-lib: "pyside2"
 
     steps:
     - uses: actions/checkout@v1

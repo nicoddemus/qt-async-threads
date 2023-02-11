@@ -2,6 +2,7 @@
 -----
 
 - Support `PyQt5`_, `PyQt6`_, `PySide2`_, and `PySide6`_ thanks to `qtpy`_.
+- Support Python 3.11.
 
 .. _PyQt5: https://pypi.org/project/PyQt5/
 .. _PyQt6: https://pypi.org/project/PyQt6/
