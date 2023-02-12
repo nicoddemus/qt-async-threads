@@ -124,8 +124,7 @@ Thanks to the ``async``/``await`` syntax, we can keep the entire flow in the sam
 including handling exceptions naturally.
 
 We could rewrite the first example using a `ThreadPoolExecutor`_ or `QThreads`_,
-but that would require a significant rewrite of the flow of the code if we don't want to block
-the Qt event loop.
+but that would require a significant rewrite.
 
 
 
