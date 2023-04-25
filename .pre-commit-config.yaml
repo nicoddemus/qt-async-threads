@@ -23,7 +23,7 @@ repos:
     -   id: check-yaml
     -   id: check-merge-conflict
 -   repo: https://github.com/PyCQA/autoflake
-    rev: v2.1.0
+    rev: v2.1.1
     hooks:
     -   id: autoflake
         name: autoflake
