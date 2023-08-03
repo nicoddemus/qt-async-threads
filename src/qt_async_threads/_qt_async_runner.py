@@ -96,7 +96,7 @@ class QtAsyncRunner(AbstractAsyncRunner):
         their results as they get ready.
         """
         # We submit the functions in batches to avoid overloading the pool, which can cause other
-        # coroutines to stall. For example, Autofit works by executing 1000s of small functions,
+        # coroutines to stall. For example, a simulation might work by executing 1000s of small functions,
         # which might take a few ms each. If we submitted all those 1000s of functions
         # at once (at the time ``run_parallel`` is called), then other coroutines that try to submit
         # functions to execute in threads would only be resumed much later, causing a noticeable
