@@ -1,4 +1,4 @@
-0.5.0
+0.5.1
 -----
 
 - New attribute ``AsyncTester.timeout_s``, with the timeout in seconds until ``start_and_wait``
