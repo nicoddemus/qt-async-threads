@@ -9,6 +9,9 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # For PyPI trusted publishers.
+      contents: write  # For release notes.
 
     steps:
     - uses: actions/checkout@v1
