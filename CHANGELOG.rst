@@ -1,3 +1,9 @@
+0.5.0
+-----
+
+- New attribute ``AsyncTester.timeout_s``, with the timeout in seconds until ``start_and_wait``
+  raises ``TimeoutError``.
+
 0.4.0
 -----
 

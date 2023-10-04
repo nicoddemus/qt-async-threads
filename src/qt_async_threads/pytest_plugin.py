@@ -36,12 +36,15 @@ class AsyncTester:
     runner: QtAsyncRunner
     qtbot: QtBot
 
+    #: Timeout in seconds for ``QtBot.waitUntil`` during ``start_and_wait``.
+    timeout_s: int = 5
+
     def _get_wait_idle_timeout(self) -> int:
         """
         Return the maximum amount of time we should wait for the runner to
         become idle, in ms.
         """
-        timeout_s = 5  # This is the default timeout from pytest-qt.
+        timeout_s = self.timeout_s
         in_ci = os.environ.get("CI") == "true"
         in_debugger = sys.gettrace() is not None
         if in_debugger and not in_ci:
