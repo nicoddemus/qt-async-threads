@@ -1,4 +1,5 @@
 import random
+import threading
 import time
 from functools import partial
 from threading import Barrier
@@ -217,3 +218,24 @@ class TestRunAsyncBlocking:
 
         with pytest.raises(MyError):
             runner.run_coroutine(foo())
+
+
+def test_close_with_coroutines_executing(runner: QtAsyncRunner, qtbot: QtBot) -> None:
+    """
+    Ensure we drop coroutines in case they return after we already closed the
+    async runner.
+    """
+    started = threading.Event()
+
+    async def foo() -> None:
+        assert_is_main_thread()
+        started.set()
+        _ = await runner.run(double, 33, sleep_s=2.0)
+        # We should never reach this point, because as soon as ``started``
+        # was set, we call runner.close(), so we will never return from the
+        # await runner.run() call above.
+        assert False
+
+    runner.start_coroutine(foo())
+    qtbot.waitUntil(started.is_set)
+    runner.close()

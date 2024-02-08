@@ -1,3 +1,20 @@
+0.6.0
+-----
+
+- Now ``QtAsyncRunner.close()`` will cause all running coroutines to never be called back into the main thread.
+
+  Letting coroutines resume into the main thread after ``close()``
+  has been called can be problematic, specially in tests, as ``close()`` is often called during test teardown.
+  If the user missed to properly wait on a coroutine during the test, what can
+  happen is that the coroutine will resume (when the thread finishes), possibly after resources have already
+  been cleared, specially widgets.
+
+  Dropping seems harsh, but follows what other libraries like ``asyncio`` do when faced with the same
+  situation.
+
+  We might consider adding a ``wait`` flag or something like that in the future to instead of cancelling the coroutines,
+  wait for them.
+
 0.5.2
 -----
 
