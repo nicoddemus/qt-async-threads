@@ -15,6 +15,9 @@
   We might consider adding a ``wait`` flag or something like that in the future to instead of cancelling the coroutines,
   wait for them.
 
+- ``AsyncTester.start_and_wait()`` now receives an optional ``timeout_s`` parameter, which overwrites
+  ``AsyncTester.timeout_s``.
+
 0.5.2
 -----
 
