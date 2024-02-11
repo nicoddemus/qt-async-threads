@@ -100,7 +100,21 @@ class AbstractAsyncRunner(ABC):
 
     @abstractmethod
     def close(self) -> None:
-        """Close runner and cleanup resources."""
+        """
+        Close runner and cleanup resources.
+
+        Cancels all running callables that were started with ``run`` or ``run_parallel``. Any
+        callable will still run, however its results will be dropped:
+
+        Letting coroutines resume into the main thread after close()
+        has been called can be problematic specially in tests, as close() is often called at the end of the
+        test. If the user has forgotten to properly wait on a coroutine() during the test, often what will
+        happen is that the coroutine will resume (after the thread finishes) when other resources have already
+        been cleared, specially widgets.
+
+        Dropping seems harsh, but follows what other libraries like ``asyncio`` do when faced with the same
+        situation.
+        """
 
     @abstractmethod
     async def run(

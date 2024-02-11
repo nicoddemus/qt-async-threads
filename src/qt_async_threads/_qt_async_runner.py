@@ -46,6 +46,7 @@ class QtAsyncRunner(AbstractAsyncRunner):
         super().__init__()
         self._max_threads = max_threads or os.cpu_count() or 1
         self._pool = ThreadPoolExecutor(max_workers=max_threads)
+        self._closed = False
 
         # Keep track of running tasks,
         # mostly to know if we are idle or not.
@@ -71,6 +72,7 @@ class QtAsyncRunner(AbstractAsyncRunner):
         return len(self._running_tasks) == 0
 
     def close(self) -> None:
+        self._closed = True
         self._pool.shutdown(wait=True, cancel_futures=True)
 
     async def run(
@@ -150,7 +152,7 @@ class QtAsyncRunner(AbstractAsyncRunner):
         # why we use ``pop_coroutine``, which is lock-protected and will return
         # the coroutine and set it to None, so next calls of this method will get ``None``
         # and won't trigger the event again.
-        if coroutine := task.pop_coroutine():
+        if (coroutine := task.pop_coroutine()) and not future.cancelled():
             self._signaller.future_done_signal.emit(future, coroutine)
 
     def _resume_coroutine(
@@ -162,8 +164,9 @@ class QtAsyncRunner(AbstractAsyncRunner):
         Slots connected to our internal ``_signaller`` object,
         called in the main thread after a future finishes, resuming the paused coroutine.
         """
-        assert threading.current_thread() is threading.main_thread()
-        self.start_coroutine(coroutine)
+        if not future.cancelled() and not self._closed:
+            assert threading.current_thread() is threading.main_thread()
+            self.start_coroutine(coroutine)
 
     def start_coroutine(self, coroutine: Coroutine) -> None:
         """
@@ -240,7 +243,8 @@ class _AsyncTask(Awaitable[None]):
         for future in list(self.futures):
             if future.done():
                 self.futures.discard(future)
-                yield future.result()
+                if not future.cancelled():
+                    yield future.result()
 
     def pop_coroutine(self) -> Coroutine | None:
         """

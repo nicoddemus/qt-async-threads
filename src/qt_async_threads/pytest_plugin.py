@@ -39,12 +39,11 @@ class AsyncTester:
     #: Timeout in seconds for ``QtBot.waitUntil`` during ``start_and_wait``.
     timeout_s: int = 5
 
-    def _get_wait_idle_timeout(self) -> int:
+    def _get_wait_idle_timeout(self, timeout_s: int) -> int:
         """
         Return the maximum amount of time we should wait for the runner to
         become idle, in ms.
         """
-        timeout_s = self.timeout_s
         in_ci = os.environ.get("CI") == "true"
         in_debugger = sys.gettrace() is not None
         if in_debugger and not in_ci:
@@ -53,7 +52,7 @@ class AsyncTester:
             timeout_s = 24 * 60 * 60
         return timeout_s * 1000
 
-    def start_and_wait(self, coroutine: Coroutine) -> None:
+    def start_and_wait(self, coroutine: Coroutine, *, timeout_s: int | None = None) -> None:
         """
         Starts the given coroutine and wait for the runner to be idle.
 
@@ -61,6 +60,11 @@ class AsyncTester:
         the former waits only for the given coroutine, while this method waits
         for the runner itself to become idle (meaning this will wait even if
         the given coroutine starts other coroutines).
+
+        :param timeout_s:
+            If given, how long to wait. If not given, will use AsyncTester.timeout_s.
         """
         self.runner.start_coroutine(coroutine)
-        self.qtbot.waitUntil(self.runner.is_idle, timeout=self._get_wait_idle_timeout())
+        if timeout_s is None:
+            timeout_s = self.timeout_s
+        self.qtbot.waitUntil(self.runner.is_idle, timeout=self._get_wait_idle_timeout(timeout_s))
