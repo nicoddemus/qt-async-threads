@@ -11,7 +11,6 @@ from typing import Iterable
 from typing import ParamSpec
 from typing import TypeVar
 
-
 Params = ParamSpec("Params")
 T = TypeVar("T")
 
