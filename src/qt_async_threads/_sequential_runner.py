@@ -32,7 +32,7 @@ class SequentialRunner(AbstractAsyncRunner):
         """
         return func(*args, **kwargs)
 
-    async def run_parallel(  # type:ignore[override]
+    async def run_parallel(  # type: ignore[override]
         self, funcs: Iterable[Callable[[], T]]
     ) -> AsyncIterator[T]:
         """

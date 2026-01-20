@@ -90,7 +90,7 @@ class QtAsyncRunner(AbstractAsyncRunner):
             return result
         assert False, "should never be reached"
 
-    async def run_parallel(  # type:ignore[override]
+    async def run_parallel(  # type: ignore[override]
         self, funcs: Iterable[Callable[[], T]]
     ) -> AsyncIterator[T]:
         """
